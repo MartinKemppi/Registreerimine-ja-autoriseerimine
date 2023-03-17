@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import os
+from time import *
 
 filename = "logpass.txt"
 
@@ -61,14 +62,25 @@ def login():
                         modify_window = Toplevel(aken)
                         modify_window.title("Modify")
                         modify_label = Label(modify_window, text=f"Tere tulemast, {login}!")
-                        modify_label.pack()                       
-                        #os.startfile(r'C:\Users\opilane\source\repos\MartinKemppi_TARpv22\l-ppt--master\lõpptöö.py')
+                        modify_label.pack()
+                        #sleep(1) 
+                        os.startfile("lopptoo.py")                        
+                        return                       
                     else:
                         messagebox.showerror("Viga", "Vale parool.")
                         return
     
     # näidata veateadet, kui sisselogimist ei leitud
     messagebox.showerror("Viga", "Seda sisselogimist ei eksisteeri.")
+
+def change_password():   
+    login = login_entry.get()
+    password = password_entry.get()
+
+    # ümberkirjutab login ja parool
+    with open(filename, "w") as f:
+        f.write(f"{login},{password}\n")
+        messagebox.showinfo("Edu", "Kasutaja parool edukalt vahetatud.")
 
 aken=Tk()
 aken.geometry("800x400")
@@ -80,6 +92,10 @@ password_entry=Entry(aken,show="*",fg="blue",bg="lightblue",width=15,font="Arial
 btn0=Button(aken,text="Logi sisse",font="Arial 12",relief=GROOVE,command=login)#SUNKEN, RAISED
 btn1=Button(aken,text="Unustasin salasõna",font="Arial 12",relief=GROOVE,command=remind_password)#SUNKEN, RAISED
 btn2=Button(aken,text="Loo uus kasutaja",font="Arial 12",relief=GROOVE,command=create_user)#SUNKEN, RAISED
+btn3=Button(aken,text="Värskenda salasõna",font="Arial 12",relief=GROOVE,command=change_password)#SUNKEN, RAISED
+tahvel=Canvas(aken,width=100,height=100)
+img=PhotoImage(file="images.png").subsample(2)
+tahvel.create_image(2,2,image=img,anchor=NW)
 
 lbl.pack()
 login_entry.pack(padx=0,pady=0)
@@ -87,5 +103,7 @@ password_entry.pack(padx=1,pady=1)
 btn0.place(x=280,y=175)
 btn1.place(x=320,y=210)
 btn2.place(x=380,y=175)
+btn3.place(x=315,y=245)
+tahvel.place(x=175,y=10)
 
 aken.mainloop()
